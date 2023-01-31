@@ -1,55 +1,54 @@
 import React from 'react';
 
-import { range, sample } from '../../utils';
+import { sample } from '../../utils';
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 import { WORDS } from '../../data';
-import GuessInput from '../GuessInput/GuessInput';
 import { checkGuess } from '../../game-helpers';
+import GuessInput from '../GuessInput/GuessInput';
+import GuessResult from '../GuessResult/GuessResult';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 
+const GAME_STATUS = {
+  playing: "playing",
+  win: "win",
+  lose: "lose",
+};
+
 function Game() {
-  const [guesses, setGuesses] = React.useState(range(0, 6).map(_ => []));
+  const [guesses, setGuesses] = React.useState([]);
   const [tries, setTries] = React.useState(0);
+  const [gameStatus, setGameStatus] = React.useState(GAME_STATUS.playing);
 
   const addGuess = (guess) => {
+    if (gameStatus !== GAME_STATUS.playing) {
+      alert("The game is already done. Refresh the tab to play again.");
+      return;
+    }
+
     if (tries >= NUM_OF_GUESSES_ALLOWED) {
-      alert("Sorry, you run out of tries. You lose.");
+      setGameStatus(GAME_STATUS.lose);
       return;
     }
 
     const updatedGuesses = [...guesses];
-    updatedGuesses[tries] = checkGuess(guess, answer);
+    const result = checkGuess(guess, answer);
+    updatedGuesses[tries] = result;
     setGuesses(updatedGuesses);
     setTries(tries + 1);
+
+    const isCorrect = result.every((letter) => letter.status === "correct");
+    if (isCorrect)
+      setGameStatus(GAME_STATUS.win);
   };
 
   return (
     <>
-      <div className="guess-results">
-        {range(0, 6).map((row) => {
-          const guess = guesses[row] ?? [];
-
-          return (
-            <p key={row} className="guess">
-              {range(0, 5).map((col) => {
-                if (!guess[col])
-                  return <span key={col} className="cell" />;
-                
-                return (
-                  <span key={col} className={`cell ${guess[col].status}`}>
-                    {guess[col].letter}
-                  </span>
-                );
-              })}
-            </p>
-          );
-        })}
-      </div>
-      <GuessInput onSubmit={addGuess} />
+      <GuessResult guesses={guesses} />
+      <GuessInput onSubmit={addGuess} disabled={gameStatus !== GAME_STATUS.playing} />
     </>
   );
 }
