@@ -6,13 +6,14 @@ import { WORDS } from '../../data';
 import { checkGuess } from '../../game-helpers';
 import GuessInput from '../GuessInput/GuessInput';
 import GuessResult from '../GuessResult/GuessResult';
+import GuessBanner from '../GuessBanner/GuessBanner';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 
-const GAME_STATUS = {
+export const GAME_STATUS = {
   playing: "playing",
   win: "win",
   lose: "lose",
@@ -29,24 +30,24 @@ function Game() {
       return;
     }
 
-    if (tries >= NUM_OF_GUESSES_ALLOWED) {
-      setGameStatus(GAME_STATUS.lose);
-      return;
-    }
-
     const updatedGuesses = [...guesses];
     const result = checkGuess(guess, answer);
     updatedGuesses[tries] = result;
     setGuesses(updatedGuesses);
-    setTries(tries + 1);
+
+    const totalTries = tries + 1;
+    setTries(totalTries);
 
     const isCorrect = result.every((letter) => letter.status === "correct");
     if (isCorrect)
       setGameStatus(GAME_STATUS.win);
+    else if (totalTries >= NUM_OF_GUESSES_ALLOWED)
+      setGameStatus(GAME_STATUS.lose);
   };
 
   return (
     <>
+      <GuessBanner gameStatus={gameStatus} tries={tries} answer={answer} />
       <GuessResult guesses={guesses} />
       <GuessInput onSubmit={addGuess} disabled={gameStatus !== GAME_STATUS.playing} />
     </>
