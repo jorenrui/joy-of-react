@@ -124,6 +124,29 @@ h1 {
   --radius: 0px 0px 0px 4px;
 }
 
+.guess-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.guess-keyboard .row {
+  display: flex;
+  gap: 6px;
+}
+
+.guess-keyboard .cell {
+  height: 2.75rem;
+  width: 2.75rem;
+  font-size: 1.5rem; 
+  line-height: 2rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  border: none;
+}
+
 .cell.correct {
   background: var(--color-success);
   border-color: var(--color-success);

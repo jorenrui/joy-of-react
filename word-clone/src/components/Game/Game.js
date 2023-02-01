@@ -6,6 +6,7 @@ import { WORDS } from '../../data';
 import { checkGuess } from '../../game-helpers';
 import GuessInput from '../GuessInput/GuessInput';
 import GuessResult from '../GuessResult/GuessResult';
+import GuessKeyboard from '../GuessKeyboard/GuessKeyboard';
 import GuessBanner from '../GuessBanner/GuessBanner';
 
 // Pick a random word on every pageload.
@@ -21,6 +22,7 @@ export const GAME_STATUS = {
 
 function Game() {
   const [guesses, setGuesses] = React.useState([]);
+  const [enteredKeys, setEnteredKeys] = React.useState({});
   const [tries, setTries] = React.useState(0);
   const [gameStatus, setGameStatus] = React.useState(GAME_STATUS.playing);
 
@@ -30,10 +32,16 @@ function Game() {
       return;
     }
 
-    const updatedGuesses = [...guesses];
     const result = checkGuess(guess, answer);
+    
+    const updatedGuesses = [...guesses];
     updatedGuesses[tries] = result;
     setGuesses(updatedGuesses);
+
+    const updatedEnteredKeys = { ...enteredKeys };
+    for (const key of result)
+      updatedEnteredKeys[key.letter] = key.status;
+    setEnteredKeys(updatedEnteredKeys);
 
     const totalTries = tries + 1;
     setTries(totalTries);
@@ -47,9 +55,10 @@ function Game() {
 
   return (
     <>
-      <GuessBanner gameStatus={gameStatus} tries={tries} answer={answer} />
       <GuessResult guesses={guesses} />
       <GuessInput onSubmit={addGuess} disabled={gameStatus !== GAME_STATUS.playing} />
+      <GuessKeyboard enteredKeys={enteredKeys} />
+      <GuessBanner gameStatus={gameStatus} tries={tries} answer={answer} />
     </>
   );
 }
