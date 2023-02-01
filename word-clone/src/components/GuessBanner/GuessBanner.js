@@ -1,7 +1,19 @@
 import React from "react";
 import { GAME_STATUS } from "../Game";
 
-function GuessBanner({ gameStatus, tries, answer }) {
+function RestartButton(props) {
+  return (
+    <button
+      type="button"
+      className="restart-button"
+      {...props}
+    >
+      Restart
+    </button>
+  )
+}
+
+function GuessBanner({ gameStatus, tries, answer, restart }) {
   if (gameStatus === GAME_STATUS.playing)
     return null;
 
@@ -12,6 +24,7 @@ function GuessBanner({ gameStatus, tries, answer }) {
           <strong>Congratulations!</strong> Got it in
           <strong> {tries} guess(es)</strong>.
         </p>
+        <RestartButton onClick={restart} />
       </div>
     );
   }
@@ -19,6 +32,7 @@ function GuessBanner({ gameStatus, tries, answer }) {
   return (
     <div className="sad banner">
       <p>Sorry, the correct answer is <strong>{answer}</strong>.</p>
+      <RestartButton onClick={restart} />
     </div>
   );
 }
