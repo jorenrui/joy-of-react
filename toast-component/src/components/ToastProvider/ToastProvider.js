@@ -6,16 +6,16 @@ function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
   const clearToast = React.useCallback(() => {
-    setToasts([]);
+    setToasts((curToasts) => !curToasts.length ? curToasts : []);
   }, []);
-
+  
   const dismissToast = React.useCallback((id) => {
-    setToasts((curToast) => curToast.filter((item) => item.id !== id));
+    setToasts((curToasts) => curToasts.filter((item) => item.id !== id));
   }, []);
 
   const addToast = React.useCallback(({ variant, message }) => {
-    setToasts((curToast) => [
-      ...curToast,
+    setToasts((curToasts) => [
+      ...curToasts,
       {
         id: Math.random(),
         message,
