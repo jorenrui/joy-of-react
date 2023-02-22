@@ -5,6 +5,10 @@ export const ToastContext = React.createContext();
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
+  const clearToast = React.useCallback(() => {
+    setToasts([]);
+  }, []);
+
   const dismissToast = React.useCallback((id) => {
     setToasts((curToast) => curToast.filter((item) => item.id !== id));
   }, []);
@@ -22,9 +26,10 @@ function ToastProvider({ children }) {
 
   const value = React.useMemo(() => ({
     toasts,
+    clearToast,
     addToast,
     dismissToast,
-  }), [toasts, dismissToast, addToast]);
+  }), [toasts, clearToast, dismissToast, addToast]);
 
   return (
     <ToastContext.Provider value={value}>
