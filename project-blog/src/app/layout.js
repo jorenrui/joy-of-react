@@ -4,6 +4,7 @@ import {
   Spline_Sans_Mono,
 } from 'next/font/google';
 import clsx from 'clsx';
+import { cookies } from 'next/headers';
 
 import { LIGHT_TOKENS, DARK_TOKENS } from '@/constants';
 
@@ -25,15 +26,19 @@ const monoFont = Spline_Sans_Mono({
 });
 
 function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = 'light';
+  const savedTheme = cookies().get('color-theme');
+  const theme = savedTheme?.value || 'light';
+
+  const COLORS = theme === 'light'
+      ? LIGHT_TOKENS
+      : DARK_TOKENS;
 
   return (
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
       data-color-theme={theme}
-      style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
+      style={COLORS}
     >
       <body>
         <Header theme={theme} />
