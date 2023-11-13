@@ -49,6 +49,7 @@ function DivisionGroupsDemo({
     <Card as="section" className={styles.wrapper}>
       <header className={styles.header}>
         <SliderControl
+          id="numOfGroups"
           label="Number of Groups"
           className={styles.slider}
           step={1}
