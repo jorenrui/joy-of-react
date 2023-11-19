@@ -21,7 +21,7 @@ const COMPONENTS = {
 export async function generateMetadata({ params }) {
   const post = await loadBlogPost(params.postSlug);
 
-  if (!post) return notFound();
+  if (!post) return null;
 
   return {
     title: `${post.frontmatter.title} • ${BLOG_TITLE}`,
