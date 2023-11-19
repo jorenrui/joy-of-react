@@ -6,7 +6,7 @@ import {
   Pause,
   RotateCcw,
 } from 'react-feather';
-import { motion } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 
 import Card from '@/components/Card';
 import VisuallyHidden from '@/components/VisuallyHidden';
@@ -43,67 +43,69 @@ function CircularColorsDemo() {
   }, [isPlaying]);
 
   return (
-    <Card as="section" className={styles.wrapper}>
-      <ul className={styles.colorsWrapper}>
-        {COLORS.map((color, index) => {
-          const isSelected =
-            color.value === selectedColor.value;
+    <MotionConfig reducedMotion="user">
+      <Card as="section" className={styles.wrapper}>
+        <ul className={styles.colorsWrapper}>
+          {COLORS.map((color, index) => {
+            const isSelected =
+              color.value === selectedColor.value;
 
-          return (
-            <li
-              className={styles.color}
-              key={index}
-            >
-              {isSelected && (
-                <motion.div
-                  layoutId={id}
-                  transition={SPRING}
-                  className={
-                    styles.selectedColorOutline
-                  }
-                />
-              )}
-              <div
-                className={clsx(
-                  styles.colorBox,
-                  isSelected &&
-                    styles.selectedColorBox
-                )}
-                style={{
-                  backgroundColor: color.value,
-                }}
+            return (
+              <li
+                className={styles.color}
+                key={index}
               >
-                <VisuallyHidden>
-                  {color.label}
-                </VisuallyHidden>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+                {isSelected && (
+                  <motion.div
+                    layoutId={id}
+                    transition={SPRING}
+                    className={
+                      styles.selectedColorOutline
+                    }
+                  />
+                )}
+                <div
+                  className={clsx(
+                    styles.colorBox,
+                    isSelected &&
+                      styles.selectedColorBox
+                  )}
+                  style={{
+                    backgroundColor: color.value,
+                  }}
+                >
+                  <VisuallyHidden>
+                    {color.label}
+                  </VisuallyHidden>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
 
-      <div className={styles.timeWrapper}>
-        <dl className={styles.timeDisplay}>
-          <dt>Time Elapsed</dt>
-          <dd>{timeElapsed}</dd>
-        </dl>
-        <div className={styles.actions}>
-          <button onClick={() => setPlaying((state) => !state)}>
-            {isPlaying ? <Pause /> : <Play />}
-            <VisuallyHidden>
-              {isPlaying ? 'Pause' : 'Play'}
-            </VisuallyHidden>
-          </button>
-          <button onClick={() => {
-            setPlaying(false);
-            setTimeElapsed(0);
-          }}>
-            <RotateCcw />
-            <VisuallyHidden>Reset</VisuallyHidden>
-          </button>
+        <div className={styles.timeWrapper}>
+          <dl className={styles.timeDisplay}>
+            <dt>Time Elapsed</dt>
+            <dd>{timeElapsed}</dd>
+          </dl>
+          <div className={styles.actions}>
+            <button onClick={() => setPlaying((state) => !state)}>
+              {isPlaying ? <Pause /> : <Play />}
+              <VisuallyHidden>
+                {isPlaying ? 'Pause' : 'Play'}
+              </VisuallyHidden>
+            </button>
+            <button onClick={() => {
+              setPlaying(false);
+              setTimeElapsed(0);
+            }}>
+              <RotateCcw />
+              <VisuallyHidden>Reset</VisuallyHidden>
+            </button>
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </MotionConfig>
   );
 }
 
