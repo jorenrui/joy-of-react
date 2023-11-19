@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { notFound } from 'next/navigation';
 
 import styles from './postSlug.module.css';
 import { loadBlogPost } from '@/helpers/file-helpers';
@@ -19,6 +20,8 @@ const COMPONENTS = {
 export async function generateMetadata({ params }) {
   const post = await loadBlogPost(params.postSlug);
 
+  if (!post) return notFound();
+
   return {
     title: `${post.frontmatter.title} • ${BLOG_TITLE}`,
     description: post.frontmatter.abstract,
@@ -27,6 +30,8 @@ export async function generateMetadata({ params }) {
 
 async function BlogPost({ params }) {
   const post = await loadBlogPost(params.postSlug);
+
+  if (!post) notFound();
 
   return (
     <article className={styles.wrapper}>
