@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Rss } from 'react-feather';
+import Link from 'next/link';
 
 import Logo from '@/components/Logo';
 import VisuallyHidden from '@/components/VisuallyHidden';
@@ -16,7 +17,7 @@ function Header({ theme, className, ...delegated }) {
       <Logo />
 
       <div className={styles.actions}>
-        <button className={styles.action}>
+        <Link href="/rss" className={styles.action}>
           <Rss
             size="1.5rem"
             style={{
@@ -27,7 +28,7 @@ function Header({ theme, className, ...delegated }) {
           <VisuallyHidden>
             View RSS feed
           </VisuallyHidden>
-        </button>
+        </Link>
         <DarkModeToggle initialTheme={theme} className={styles.action} />
       </div>
     </header>

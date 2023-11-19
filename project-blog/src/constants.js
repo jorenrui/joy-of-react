@@ -1,4 +1,5 @@
 export const BLOG_TITLE = 'Bits & Bytes';
+export const SITE_URL = 'http://example.com';
 
 export const LIGHT_COLORS = {
   '--color-text': 'hsl(0deg 0% 5%)',
