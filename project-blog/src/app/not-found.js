@@ -1,4 +1,9 @@
+import { BLOG_TITLE } from '@/constants';
 import styles from './homepage.module.css';
+
+export const metadata = {
+  title: `404 Not found • ${BLOG_TITLE}`,
+};
 
 function NotFound() {
   return (
