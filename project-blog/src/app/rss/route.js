@@ -6,6 +6,7 @@ import { BLOG_TITLE, SITE_URL } from '@/constants';
 
 const RSS_OPTIONS = {
   title: BLOG_TITLE,
+  description: 'Blog site for JavaScript.',
   pubDate: new Date(),
   copyright: `All rights reserved 2023 - ${new Date().getFullYear()}, Joeylene @jorenrui`,
   site_url: SITE_URL,
