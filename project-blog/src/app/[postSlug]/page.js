@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 
 import styles from './postSlug.module.css';
@@ -8,8 +9,8 @@ import { BLOG_TITLE } from '@/constants';
 import BlogHero from '@/components/BlogHero';
 import CodeSnippet from '@/components/CodeSnippet';
 
-const DivisionGroupsDemo = React.lazy(() => import('@/components/DivisionGroupsDemo'));
-const CircularColorsDemo = React.lazy(() => import('@/components/CircularColorsDemo'));
+const DivisionGroupsDemo = dynamic(() => import('@/components/DivisionGroupsDemo'));
+const CircularColorsDemo = dynamic(() => import('@/components/CircularColorsDemo'));
 
 const COMPONENTS = {
   pre: CodeSnippet,
